@@ -71,6 +71,10 @@ function putStoriesOnPage() {
   $('i').on("click", function() {
     console.log("ok")
     // $("#favorited-stories").append($(this));
+    // here is the function where we handle putting stories into the favorited tab. We should consolidate the logic to add the red class here as well instead of having multiple 
+    // on click functions. we should be asking if the story is being favorited or unfavorited (which we do in the other onclick function to determine if should get the red class or have it removed)
+    // if the story is being favorited, then we should our favorite logic, which would be to add the class and to add it to the favorited-stories container, and also to then store the information in local storage.
+    // if the story is being unfavorited, we should remove the red class from the icon and also remove the story from the favorited-stories container, and also remove it from the local storage
 
     // append the list element(<li></li>) of "i" that has been clicked  to the favorited stories 
      $("#favorited-stories").append($(this.closest('li').cloneNode(true)));

@@ -7,7 +7,6 @@ let storyList;
 
 async function getAndShowStoriesOnStart() {
   storyList = await StoryList.getStories();
-  console.log(storyList)
   $storiesLoadingMsg.remove();
 
   putStoriesOnPage();
@@ -24,17 +23,12 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
-  const thumbsUpIcons = document.getElementsByClassName("far fa-thumbs-up");
-
-
-  // Toggle a class (add if not present, remove if present)
- 
-
   return $(`
       <li id="${story.storyId}">
       <div>
       <span class="thumb">
         <i class="far fa-thumbs-up"></i>
+
       </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -47,17 +41,11 @@ function generateStoryMarkup(story) {
     `);
 }
 
-// function changeColor(){
-//   $('i').on("click", changeColor)
-//   $('i').removeClass("far fa-thumbs-up");
-//   $(i).classList.toggle("far fa-thumbs-up red-color");
-//   // Toggle a class (add if not present, remove if present)
-//   }
-// $('i').on("click", changeColor)
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
+
 function putStoriesOnPage() {
-  // console.debug("putStoriesOnPage");
+  console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
 
@@ -68,58 +56,37 @@ function putStoriesOnPage() {
   }
 
   $allStoriesList.show();
-  $('i').on("click", function() {
-    console.log("ok")
-    // $("#favorited-stories").append($(this));
-
-    // append the list element(<li></li>) of "i" that has been clicked  to the favorited stories 
-     $("#favorited-stories").append($(this.closest('li').cloneNode(true)));
-    
+  // Load favorite story from localStorage when the page loads
+$(document).ready(function() {
+  const favoriteStoryHTML = localStorage.getItem("favorite");
+  if (favoriteStoryHTML) {
+    $("#Ol-favorite-stories").html(favoriteStoryHTML);
+    console.log("Favorite story exists");
+  }
+});
+// Add logic for favoriting the story
+$('i').on("click", function() {
+   // here is the function where we handle putting stories into the favorited tab. We should consolidate the logic to add the red class here as well instead of having multiple 
+    // on click functions. we should be asking if the story is being favorited or unfavorited (which we do in the other onclick function to determine if should get the red class or have it removed)
+    // if the story is being favorited, then we should our favorite logic, which would be to add the class and to add it to the favorited-stories container, and also to then store the information in local storage.
+    // if the story is being unfavorited, we should remove the red class from the icon and also remove the story from the favorited-stories container, and also remove it from the local storage
+    changeColor()
+    //Add  a class name for the list whose  icon was clicked 
+    $(this).closest("li").addClass("clicked");
+    // get the list whose icon was clicked 
+    const favoriteStory = this.closest("li").cloneNode(true);
+    // put it in local storage 
+    localStorage.setItem("favorite", favoriteStory);
+    console.log("Favorite story added");
   });
 
-  if (typeof(Storage) !== "undefined") {
-    // Retrieve the stored value from localStorage
-    var userModification = localStorage.getItem("userModification");
-  
-    // Check if there is a stored value
-    if (userModification) {
-      // Apply the stored value to the webpage
-      document.getElementById(" ").value = userModification;
-    }
-  
-    // Listen for changes on the input field
-    document.getElementById("containerStories").addEventListener("input", function() {
-      // Save the user's modification to localStorage
-      localStorage.setItem("userModification", this.value);
-    });
+  // Append the favorite story from local storage to the favorited stories container
+  const favoriteStoryHTML = localStorage.getItem("favorite");
+  if (favoriteStoryHTML) {
+    $("#Ol-favorite-stories").html(favoriteStoryHTML);
+    console.log("Favorite story exists");
   } else {
-    // LocalStorage is not supported
-    console.log("LocalStorage is not supported by your browser.");
+    $("#Ol-favorite-stories").empty();
   }
+
 }
-
-async function FormSubmission(evt){
-  // console.debug("FormSubmission");
-  evt.preventDefault();
-
-  const titleValue = $("#titleUser").val();
-  const urlValue = $("#urlUser").val();
-  const authorValue = $('#authorUser').val();
-  const username = currentUser.username
-  const storyData = { titleValue, urlValue, authorValue, username };
-  const story = await StoryList.addStory(currentUser,storyData)
-
-  const $story = generateStoryMarkup(story);
-
-  $allStoriesList.prepend($story);
-  putStoriesOnPage($story)
-  // hide the form and reset it
-  $("#myform").slideUp("slow");
-  ("#myform").trigger("reset");
-}
-// putStoriesOnPage($story)
-
-$('#submitButton').on('submit', FormSubmission);
-
-
-

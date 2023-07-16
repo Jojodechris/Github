@@ -61,7 +61,6 @@ class StoryList {
 
     // turn plain old story objects from API into instances of Story class
     const stories = response.data.stories.map(story => new Story(story));
-    
 
     // build an instance of our own class using the new array of stories
     return new StoryList(stories);
@@ -74,43 +73,10 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  // async addStory(currentUser,{newStory}) {
-
-  //   // UNIMPLEMENTED: complete this function!
-
-  //   let newStory = {
-  //     title:newStory.title,
-  //     author:newStory.author,
-  //     url: newStory.url
-    
-  //   };
-
-  //     const res = await axios.post("https://hack-or-snooze-v3.herokuapp.com/stories",newStory,{ auth: {
-  //       username: currentUser.username,
-  //       password:currentUser.password,
-  //     }})
-  //     console.log(res);
-      
-
-      async addStory(user, { title, author, url }) {
-        const token = user.loginToken;
-        const response = await axios({
-          method: "POST",
-          url: `${BASE_URL}/stories`,
-          data: { token, story: { title, author, url } },
-        });
-        const story = new Story(response.data.story);
-        this.stories.unshift(story);
-        user.ownStories.unshift(story);
-        return story;
-      
-      }
-    
-
-      
-    
+  async addStory( /* user, newStory */) {
+    // UNIMPLEMENTED: complete this function!
   }
-
+}
 
 
 /******************************************************************************
@@ -134,8 +100,6 @@ class User {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
-
-
 
     // instantiate Story instances for the user's favorites and ownStories
     this.favorites = favorites.map(s => new Story(s));

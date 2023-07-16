@@ -56,28 +56,16 @@ function putStoriesOnPage() {
   }
 
   $allStoriesList.show();
-  // Load favorite story from localStorage when the page loads
-$(document).ready(function() {
-  const favoriteStoryHTML = localStorage.getItem("favorite");
-  if (favoriteStoryHTML) {
-    $("#Ol-favorite-stories").html(favoriteStoryHTML);
-    console.log("Favorite story exists");
-  }
-});
-// Add logic for favoriting the story
-$('i').on("click", function() {
-   // here is the function where we handle putting stories into the favorited tab. We should consolidate the logic to add the red class here as well instead of having multiple 
-    // on click functions. we should be asking if the story is being favorited or unfavorited (which we do in the other onclick function to determine if should get the red class or have it removed)
-    // if the story is being favorited, then we should our favorite logic, which would be to add the class and to add it to the favorited-stories container, and also to then store the information in local storage.
-    // if the story is being unfavorited, we should remove the red class from the icon and also remove the story from the favorited-stories container, and also remove it from the local storage
-    changeColor()
-    //Add  a class name for the list whose  icon was clicked 
-    $(this).closest("li").addClass("clicked");
-    // get the list whose icon was clicked 
-    const favoriteStory = this.closest("li").cloneNode(true);
-    // put it in local storage 
-    localStorage.setItem("favorite", favoriteStory);
-    console.log("Favorite story added");
+
+
+  
+  $('i').on("click", function() {
+    console.log("ok")
+    // $("#favorited-stories").append($(this));
+
+    // append the list element(<li></li>) of "i" that has been clicked  to the favorited stories 
+     $("#favorited-stories").append($(this.closest('li').cloneNode(true)));
+    
   });
 
   // Append the favorite story from local storage to the favorited stories container

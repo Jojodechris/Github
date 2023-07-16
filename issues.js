@@ -7,6 +7,7 @@
 
 
 
+// ----->How can i manage local storage to keep users data on the page even after the page refreshed. You can check what i did on stories.js line 79 to 96  
 
 
 
